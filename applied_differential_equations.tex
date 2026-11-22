@@ -1,0 +1,608 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage{relsize}
+\usepackage{graphicx}
+\usepackage[margin=3cm]{geometry} 
+\usepackage{fancyhdr}
+\usepackage{titling} 
+\usepackage{mathtools,amsthm,amssymb} 
+\usepackage[shortlabels,inline]{enumitem}
+\usepackage{indentfirst} 
+\usepackage{float}
+% \usepackage{setspace}
+\usepackage{tikz}\usetikzlibrary{arrows.meta,decorations.pathmorphing}
+\usepackage{hyperref}\hypersetup{
+    colorlinks=true,
+    linkcolor=black, 
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=cyan
+}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{property}[theorem]{Property}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{problem}[theorem]{Problem}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}      
+\newtheorem*{solution}{Solution}
+\newtheorem*{exercise}{Exercise} 
+\newtheorem*{claim}{Claim}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\nullity}{\operatorname{nullity}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+
+\renewcommand{\headrulewidth}{0.4pt} 
+\renewcommand{\footrulewidth}{0.4pt} 
+\setlength{\headheight}{15pt}  
+\setlength{\parindent}{22pt}   
+\pagestyle{fancy}             
+\lhead{\rightmark}              
+\chead{}                     
+\rhead{}          
+\lfoot{\theauthor}        
+\cfoot{}
+\rfoot{\thepage}              
+\linespread{1.5}
+% \onehalfspacing
+\setcounter{tocdepth}{1} % hide subsections in tableofcontents
+
+\title{Applied Differential Equations}
+\author{Ray Chien}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Introductiono to Differential Equations}
+
+\section{Definitions and Terminology}
+
+\begin{definition}[Differential Equations]
+    An equation containint the derivatives of one or more unknown functions(or dependent variable), with respect to one or more independent variables, is said to be a \textbf{differential equation(DE).}
+\end{definition}
+
+\begin{definition}[Ordinary, Partial]
+    If a differential equation contains only ordinary derivatives of one or more unknown function with respect to a single independent variable, it is said to be an \textbf{ordinary differential equation(ODE).} An equation involving partial derivatives of one or more unknown functions of two or more independent variables is called a \textbf{partial differential equation(PDE).}
+\end{definition}
+
+\begin{definition}[Order]
+    The \textbf{order} of a differential equatin is the order of the highest derivative in the equation.
+\end{definition}
+
+\begin{definition}[Linear]
+    An ODE is called \textbf{linear} if it has the form 
+    \[a_n(x)\frac{d^n y}{dx^n} + a_{n-1}(x)\frac{d^{n-1} y}{dx^{n-1}} + \cdots + a_1(x)\frac{dy}{dx} + a_0(x)y = g(x).\]
+\end{definition}
+
+\begin{definition}[Homogeneous Linear ODE]
+    A linear ODE is called \textbf{Homogeneous} if it has the form 
+    \[a_n(x)\frac{d^n y}{dx^n} + a_{n-1}(x)\frac{d^{n-1} y}{dx^{n-1}} + \cdots + a_1(x)\frac{dy}{dx} + a_0(x)y = 0.\]    
+\end{definition}
+
+\begin{remark}
+    If $y_1$ and $y_2$ are two solutions of a homogeneous linear ODE, then $y_1 + y_2$ is also a solution of the very ODE.  
+\end{remark}
+
+\begin{definition}[$n$-Parameter Family of Solutions, Particular Solution]
+    An \textbf{\textit{n}-parameter} family of solutions of an ODE has the form $G(x, y, c_1, c_2, \ldots, c_n) = 0.$ A \textbf{particular solution} is a solution obtained by assigning specific values to these parameters. 
+\end{definition}
+
+\begin{definition}[Singular Solution]
+    A \textbf{singular solution} of an ODE is a solution that cannot be obtained from the $n$-parameter family of solutions. It only happend in non-linear ODEs.
+\end{definition}
+
+\section{Initial-Value Problems}
+
+\begin{definition}[$n$th-Order Initial-Value Problems]
+    An \textbf{\textit{n}th-order initial-value problem(IVP)} is an $n$th order ODE and the first $n - 1$ derivatives of $y$ at $x_0.$
+\end{definition}
+
+\begin{theorem}[Existence of a Unique Solution]
+    For a first-order ODE
+    \[\frac{dy}{dx} = f(x, y).\]
+    Let $R$ be a rectangular region in the $xy$-plane defined by $a \leq x \leq b, c \leq y \leq d$ that contains the point $(x_0, y_0)$ in its interior. If $f(x, y)$ and $\frac{\partial f}{\partial y}$ are continuous on $R$, then there exists some interval: $I_0(x_0 - h, x_0 + h), h> 0$, contained in $[a, b]$, and a unique function $y(x),$ defined on $I_0$, that is a solutin of the IVP.
+\end{theorem}
+
+
+\chapter{First-Order Differential Equations}
+
+\section{Separable Equations}
+
+\begin{definition}[Saparable]
+    A first-order ODE of the form 
+    \[\frac{dy}{dx} = g(x)h(y)\]
+    is said to be \textbf{separable} or to have separable variables.
+\end{definition}
+
+Here are the steps to solve a first order separable ODE:
+
+\begin{enumerate}
+    \item We obtain 
+    \[\frac{dy}{h(y)} = g(x) \, dy.\]
+    \item We let
+    \[p(y) = \displaystyle\frac{1}{h(x)}.\]
+    \item We do integration on zth sides
+    \[\int p(y) \, dy = \int h(x) \, dx.\]
+    \item Let $P$ and $H$ be antiderivatives of $p$ and $h,$ we have 
+    \[P(y) = H(x) + c,\]
+    where $c$ is a constant.
+    \item Since the first-order separable ODEs can be non-linear, we may have to find a singular solution. In this case, since we considered $h(x) \neq 0$ in the previous divition, the singular solution occurs when $h(x) = 0.$ Therefore, we check if the solution has the form $y = r$, where $r$ is a constant.
+\end{enumerate}
+
+\section{Linear Equations}
+
+\begin{definition}[Standard form of Linear First-Order ODE]
+    The \textbf{Standard form} of linear first-ordered differential equaitons is
+    \[\frac{dy}{dx} + P(x)y = f(x).\]
+\end{definition}
+
+The idea of the method solving first-order differential equations is to multiply the equation with an \textbf{integrating factor} $\mu(x)$ such that the LHS becomes a direct differential of another functon, and the problem thus turns into a simple integraiton.  
+
+\begin{enumerate}
+    \item We multiply the standard form of the linear first-order ODE with $\mu(x)$:
+    \[\mu(x)\frac{dy}{dx} + \mu(x)P(x)y = \mu(x)f(x).\]
+    \item Observe the LHS have the form of product rule, we have
+    \[\text{LHS} = \left[\mu(x)y\right]' = \mu(x)\frac{dy}{dx} + \mu'(x)y.\]
+    Therefore, we obtain
+    \[\mu'(x) = \mu(x) P(x)\]
+    \item 
+    By solving the equation as a separable equation, we have 
+    \begin{align*}
+        \ln|\mu(x)| &= \int P(x) \, dx\\
+        \mu(x) &= e^{\int P(x) \, dx}
+    \end{align*}
+    Note that we do not need to consider the integral constant and the sign because they will be eliminated in the next step
+    \item We substitude the result into the equation:
+    \[[e^{\int P(x) \, dx} y]' = e^{\int P(x) \, dx}f(x) + c\]
+    \[y = e^{-\int P(x) \, dx} \left(\int{e^{\int P(x) \, dx}f(x) \, dx} + c\right).\]
+    \item Check for singular points.
+\end{enumerate}
+
+The other method takes use of the property of the homogeneous linear ODEs. The solution should have the form $y_c + y_p$, where $y_c$ is the family of the solutions to $\displaystyle\frac{dy_c}{dx} + P(x)y_c = 0$, and $y_p$ is a particular solution to $\displaystyle\frac{dy_p}{dx} + P(x)y_p = f(x).$
+
+To proof that the solution of a linear first-order ODE have the form $y = y_c + y_p,$ we write
+
+\[(\frac{dy}{dx} + P(x)y) - (\frac{dy_p}{dx} + P(x)y_p) = \frac{d(y - y_p)}{dx} + P(x)(y - y_p) = 0.\]
+
+\noindent Therefore, $y = y_c + y_p.$
+
+\begin{enumerate}
+    \item For $y_c$, we have $\displaystyle\frac{dy_c}{dx} + P(x)y_c = 0$, which is a separable equation having solutions $e^{-\int P(x) \, dx}.$
+    \item For $y_p$, we have $\displaystyle\frac{dy_p}{dx} + P(x)y_p = f(x).$ Just notice one or it is actually $e^{-\int P(x) \, dx} \displaystyle\int{e^{\int P(x) \, dx}f(x) \, dx}$.
+    \item Check for singlular points
+\end{enumerate}
+
+For a given linear first-order ODE, the form may not be standard. Generally, a linear first-order ODE have the form 
+\[a_1(x) y' + a_0(x) y = g(x).\]
+For $a \neq 0,$ we have
+\[y' + \frac{a_0}{a_1} y = \frac{g(x)}{a_1(x)}\]
+Therefore, to obtain singular points, solve $a_1(x) = 0.$
+
+\section{Exact Equations}
+
+For exammple, to solve the ODE
+\[y \, dx + x \, dy = 0,\]
+we notice that the equation is equivelent to
+\[d(xy) = 0.\]
+Therefore, we obtain the solution $xy = c.$ In this section, we introduce methods to help us to determine whether $M(x, y) \, dx + N(x, y) \, dy$ is the differential of a function $f(x, y)$ and to find it. 
+
+\begin{definition}(Exact Equations)
+    A differential expression $M(x, y) \, dx + N(x, y) \, dy$ is an \textbf{exact differential} in a region $R$ of the $xy$-plane if it correspondes to the differential of some function $f(x, y)$ defined in $R$. A first-order differntial of teh form $M(x, y)\,dx + N(x, y)\,dy = 0$ is said to be an \textbf{exact equation} if the expression on the left-hand side is an exact differential.
+\end{definition}
+
+\begin{theorem}
+    Let $M(x, y)$ and $N(x, y)$ be continuous and have continuous first partial dirivatives in a rectangular region $R$ defined by $a < x < b, c < y < d.$ Then a necesssary and sufficent condition that $M(x, y) \, dx + N(x, y) \, dy$ be an exact differential is 
+    \[\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}.\]
+\end{theorem}
+
+\begin{proof}
+    It is clear that if the equatino is differential of $f(x, y)$, then
+    \[M(x) = \frac{\partial f}{\partial x} \quad \text{and} \quad N(x) = \frac{\partial f}{\partial y}.\]
+    If $M, N$ have continuous first partial derivatives, then 
+    \[\frac{\partial M}{\partial y} = \frac{\partial}{\partial y}\left(\frac{\partial f}{\partial x}\right) = \frac{\partial N}{\partial x}.\]
+
+    The sufficent part of is a constructive proof, in which we actually find $f$ for $M$ and $N$ that satisfy the condition.
+\end{proof}
+
+We now introduce the procedure to find $f$
+
+\begin{enumerate}
+    \item By $\displaystyle \frac{\partial f}{\partial x} = M(x, y),$ we have 
+    \[f(x, y) = \int M(x, y)\, dx + g(y)\]
+    with $g(y)$ indicate the ``constant'' of the integral.
+    \item By $\displaystyle \frac{\partial f}{\partial y} = N(x, y)$, we have 
+    \[\frac{\partial}{\partial y} \int M(x, y)\, dx +  g'(y) = N(x, y)\]
+    \[g(y) = \int \left(-\frac{\partial}{\partial y}\left(\int M(x, y) \, dx\right)  + N(x, y) \right) \, dy.\]
+    \item Combining the result of the two steps, we have
+    \[f(x, y) = \int M(x, y)\, dx + \int N(x, y) \, dy - \int \left(\frac{\partial}{\partial y}\left(\int M(x, y) \, dx\right)\right) \, dy.\]
+\end{enumerate}
+
+
+The procedure can also be with $x, y$ exchanged.
+
+Since the expression $g'(y)$ can be proved to be independent to be independent to $x$ by
+\[\frac{\partial}{\partial x} \left(-\frac{\partial}{\partial y}\left(\int M(x, y) \, dx\right)  + N(x, y) \right) = \frac{\partial M}{\partial x} - \frac{\partial N}{\partial y} = 0.\]
+This is also the condition required. Also, this means we can get $f$ by 
+\[f(x, y) = \int M_0(x) \, dx + \int N(x, y) \, dx = \int M(x, y) \, dx + \int N_0(y) \, dy\]
+where $M_0$ is the part of $M$ which is independent to $y$, and $N_0$ is the part of $N$ wihch is independent to $x$. However, it is not always that easy to seperate the functions. 
+
+Also, $\displaystyle{\int M(x, y) \, dx}$ rigirously means the set of functions whose partial derivatives with respect to $x$ is $M(x, y).$ For example, $xy + h(y) = \displaystyle\int y \, dx$, where $h(y)$ is any function rith respect to $y$ as the ``constant'' of the integral, like $2y$, is correct. Here, however, we separate out the constant part as $g(y)$ in the first step, and ommit the constant as a function with respect to $x$ in the second step.
+
+In addition, some exact function can be obtained by multiplying an integrating factor, that is 
+\[\mu(x, y)M(x, y) \, dx + \mu(x, y)N(x, y) \, dy = 0\]
+is an exact equation. To find $u$, we check if the condition of the exact equation hold
+\[\mu_y M+\mu M_y = \mu_x N + \mu N_x\]
+We only look for if $\mu$ is dependent to a single variable, let's say $x$, and independent to the other. We have
+\[\mu \frac{M_y - N_x}{N} = \mu_x.\] 
+If $\displaystyle\frac{M_y - N_x}{N}$ is independent with $y$, It is relatively easy to solve for it is seperable. The solution is
+\[\mu = \int e^\frac{M_y - N_x}{N} \, dx\]
+if $\mu$ is dependent to $y$ or 
+\[\mu = \int e^\frac{N_x - M_y}{M} \, dy\]
+if $\mu$ is dependent to $x$.
+Note that if $M_y - N_x = 0$, then $\mu$ is a constant and not needed. Also notice that for linear equations $y' + P(x)y = f(x),$ we have $(P(x)y - F(x))dx - dy = 0.$ We have the integrating factor $\mu = \displaystyle\int e^\frac{M_y - N_x}{N} \, dx = \displaystyle\int e^{P(x)} \, dx.$
+In conclustion, apply the method of exact equations if
+\begin{enumerate}
+    \item $M_y = N_x.$
+    \item $\displaystyle\frac{M_y - N_x}{N}$ is independent to $y.$
+    \item $\displaystyle\frac{N_y - M_x}{M}$ is independent to $x.$
+\end{enumerate}
+
+\section{Solutions By Substitutions}
+
+\begin{definition}[Homogeneous Functions]
+    Let $f(x, y)$ be a function. If 
+    \[f(tx, ty) = t^\alpha f(x, y)\]
+    for any $t \in \R$, then $f$ is said to be \textbf{homogeneous} of degree $\alpha.$
+\end{definition}
+
+For a first-order ODE
+
+\[M(x, y) \, dx + N(x, y) \, dy.\]
+
+If $M$ and $N$ are both $\alpha$-degree homogeneous, then let $u = y/x,$ we have 
+\[x^\alpha M(1, u) \, dx+ x^\alpha N(1, u) \, dy = 0.\]
+With $dy = x\,du + u\,dx$ we have
+\[(M(1, u) + uN(1, u)) \, dx + xN(1, u)\,du = 0,\]
+which is a seperate equation to solve easily.
+
+\begin{definition}[Bernoulli's Equation]
+    If a differential equation have a form
+    \[\frac{dy}{dx} + P(x)y = f(x)y^n,\]
+    we call it \textbf{Bernoulli's equation}.
+\end{definition}
+For a Bernoulli's Equation with $n \neq 0$ and $n \neq 1,$ let $u = y^{1 - n}, du = (1 - n)y^{-n}dy$ we have 
+\[\frac{y^n}{1 - n}\frac{du}{dx} + P(x)y = f(x)y^n\]
+\[\frac{1}{1 - n}\frac{du}{dx} + P(x)u = f(x),\]
+which is a linear equation to solve easily.
+
+For equations having the form
+\[\frac{dy}{dx} = f(Ax + By + C),\]
+with $B \neq 0$, let $u = Ax + By + C,du = A\,dx + B\, dy,$ we have
+\[\frac{du}{dx} = -Bf(u) - A,\]
+which is a seperated equation to solve easily.
+
+\chapter{Higher-Order Differential Equations}
+
+\section{Linear Equations}
+
+\begin{theorem}
+    Let $g(x)$ and $a_i(x)$ for $i = 1, 2, \ldots, n$ be continuous on an interval $I$ including $x_0$ and let $a_n$ for every $x$ in this interval, then the linear ODE
+    \[\sum_{i = 0}^{n} a_i(x)\frac{d^ny}{dx^n} = g(x)\]
+    has a unique solution if the initial conditions $a_i(x_0)$ are known for $i = 1, 2, \ldots, n.$
+\end{theorem}
+\begin{proof}
+    IDK :(
+\end{proof}
+
+Other forms of conditions of ODEs can lead to many, one, or no solutions.  
+
+\begin{definition}[Associated Homogeneous Equations]
+    The \textbf{associated homogeneous equation} of a linear ODE
+    \[\sum_{i = 0}^{n} a_i(x)\frac{d^ny}{dx^n} = g(x)\]
+    is
+    \[\sum_{i = 0}^{n} a_i(x)\frac{d^ny}{dx^n} = 0.\]
+\end{definition}
+
+\begin{theorem}
+    Let $y_1, y_2, \ldots, y_k$ be solutions of a homogeneous differential equation on an intercal $I$, then the linear combination
+    \[y = c_1y_1(x) + c_2y_2(x) + \cdots + c_ny_n(x)\]
+    where $c_i, i = 1, 2, \ldots, k$ are arbitrary constants, is also a solution on the interval.
+\end{theorem}
+
+\begin{proof}
+    Trivial.
+\end{proof}
+
+\begin{theorem}
+    Let $f_1, f_2, \ldots, f_n$ be functions of $x$. If the \textbf{Wronskian}
+    \[W(f_1, f_2, \ldots, f_n)
+    \begin{vmatrix}
+        f_1 & f_2 & \cdots & f_n\\
+        f_1' & f_2' & \cdots & f_n'\\
+        \vdots & \vdots & \ddots & \vdots\\
+        f_1^{(n - 1)} & f_2^{(n - 1)} & \cdots & f_n^{(n - 1)}\\
+    \end{vmatrix}
+    \]
+    is nonzero for all $x$, then the set is linearly independent.
+\end{theorem}
+
+\begin{proof}
+    IDK :(
+\end{proof}
+
+\begin{definition}[Fundamental Set of Solutions]
+    A linearly indpendent set of solutions to an $n$th-order ODE on an interval $I$ with cardinality $n$ is said to be a \textbf{fundamental set of solutions} on the interval. 
+\end{definition}
+
+\begin{theorem}
+    There exists a fundamental set of solutions for any $n$th-order homogeneous linear DE.
+\end{theorem}
+\begin{proof}
+    IDK!!!
+\end{proof}
+
+\begin{theorem}
+    The general solution of an $n$th-order homogeneous linear equation is the linear combination of the function in the set of its fundamental set of solutions.
+\end{theorem}
+\begin{proof}
+    IDKIDKIDK
+\end{proof}
+
+\section{Reduction of Order}
+
+If $y_1(x)$ is found as a solution of a second-order ODE 
+\[a_2(x)y'' + a_1(x)y' + a_0(x)y = 0,\]
+we can reduce order by letting $y_2(x) = u(x)y_1(x).$ First, we transform the equation into standard form
+\[y'' + P(x)y' + Q(x)y = 0.\]
+With $y = uy_1, y' = u'y_1 + uy_1', y_1'' = u''y_1 + 2u'y_1' + uy_1''$, we have
+\[u(y_1'' + Py_1' + Qy_1) + u''y_1 + u'(2y_1' + Py_1) = u''y_1 + u'(2y_1' + Py_1) = 0.\]
+Let $w = u',$ we have 
+\[w'y_1 + w(2y_1' + Py_1) = 0,\]
+\[\frac{dw}{w} + 2\frac{y_1'}{y_1}\, dx + P \, dx\]
+\[\frac{dw}{w} + 2\frac{dy_1}{y_1} + P \, dx,\]
+from which we obtain
+\[wy^2 = c_1e^{\int - P \, dx}\]
+\[u = c_1\int\frac{e^{\int -P \, dx}}{y_1^2} \, dx + c_2.\]
+By choosing $c_1 = 1$ and $c_2 = 0$, we have 
+\[y_2 = y_1 \int \frac{e^{\int -P \, dx}}{y_1^2} \, dx.\]
+
+\section{Homogeneous Linear Equations with Constan}
+
+\begin{definition}[Auxiliary Equation]
+    For a homogeneous linear equation with constant coefficients
+    \[\sum_{i = 0}^{n} a_iy^{(i)} = 0,\]
+    its corresponding \textbf{auxiliary equation} is
+    \[\sum_{i = 0}^{n} a_i m^i = 0.\]
+\end{definition}
+
+\begin{remark}
+    The auxiliary equation is obtained by letting $y = e^{mx}.$
+\end{remark}
+
+\begin{theorem}
+    For a homogeneous linear equation with constant coefficients, let $m_1, m_2,\ldots, m_k$ be $k$ distinct solution of its auxiliary equation, and $t_i$ be the multiplicity of $m_i,$ then the general solution of the homogeneous linear equation is
+    \[\sum_{i = 1}^{k} \sum_{j = 0}^{t_i - 1} c_{ij}x^{t_j} e^{m_i}x\]
+    where $c_{ij}$ are constants.
+\end{theorem}
+
+\begin{proof}
+    Just looks damn right.
+\end{proof}
+
+\begin{remark}
+    It is often to see $c_1e^{\alpha + i\beta} + c_2e^{\alpha - i\beta}$ included in the expresstion of the solution, where $i = \sqrt{-1}.$ We can obtain cleaner expresstion with $c_1e^{\alpha + i\beta} + c_2e^{\alpha - i\beta} = e^\alpha(c_1 (\cos \beta + i \sin \beta) + c_2 (\cos \beta + i \sin \beta)) = e^\alpha(a \cos \beta + b \cos \beta),$ where $a$ and $b$ are constant, might be complex numbers.
+\end{remark}
+
+\section{Undetermined Coefficients -- Superposition Approach}
+
+This method is less or more by experience. The approach can deal with nonhomogeneous linear DEs with constant coefficients, that is
+\[\sum_{i = 0}^{n} a_iy^{(i)} = g(x)\]
+where $g + g' + g'' +\ldots$ must have finite terms. We first devide $g(x)$ to different kinds of functions, such as polynomial, exponential, a sine or cosine function, or products of them. The particular solution of the DE is the superposition of the functions with undetermined coefficients.   
+
+Sometimes, the guessed particular solution may be within the homogeneous solution. Whenever that happens, just times $x$.
+
+\begin{table}[H]
+\centering
+\caption{Trial Particular Solutions}
+\label{tab:trial_solutions}
+\begin{tabular}{ll}
+\hline
+$g(x)$ & Form of $y_p$ \\
+\hline
+$67$ & $A$ \\
+$5x + 7$ & $Ax + B$ \\
+$3x^2 - 2$ & $Ax^2 + Bx + C$ \\
+$x^3 - x + 1$ & $Ax^3 + Bx^2 + Cx + E$ \\
+$\sin 4x$ & $A\cos 4x + B\sin 4x$ \\
+$\cos 4x$ & $A\cos 4x + B\sin 4x$ \\
+$e^{5x}$ & $Ae^{5x}$ \\
+$(9x - 2)e^{5x}$ & $(Ax + B)e^{5x}$ \\
+$x^2 e^{5x}$ & $(Ax^2 + Bx + C)e^{5x}$ \\
+$e^{3x}\sin 4x$ & $Ae^{3x}\cos 4x + Be^{3x}\sin 4x$ \\
+$5x^2\sin 4x$ & $(Ax^2 + Bx + C)\cos 4x + (Ex^2 + Fx + G)\sin 4x$ \\
+$xe^{3x}\cos 4x$ & $(Ax + B)e^{3x}\cos 4x + (Cx + E)e^{3x}\sin 4x$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Undetermined Coefficients -- Annihilator Approach}
+
+This method requires the same condition to the last one.
+
+\begin{definition}[Annihilator]
+    If $L$ is a linear differential operator with constant coefficients and $f$ is a sufficiently differentiable function such that 
+    \[L(f(x)) = 0,\]
+    then $L$ is said to be an \textbf{Annihilator} of $f$.
+\end{definition}
+\begin{remark}
+    For constant coefficient linear operators $L_1, L_2, L_3,$ we have 
+    \begin{enumerate}
+        \item $(L_1L_2)y = L_1(L_2y)$
+        \item $L_1L_2 = L_2L_1$
+        \item $(L_1L_2)L_3 = L_1(L_2L_3).$
+    \end{enumerate}
+    Also, Let $L_4$ and $L_5$ be annihilators of $f$ and $g$, then $L_4L_5(f + g) = 0.$
+\end{remark}
+
+Here are some general solutions to find annihilator.
+
+\begin{enumerate}
+    \item $D^n$ for $n - 1$-ordered polynomials.
+    \item $(D - \alpha)^n$ for $\displaystyle\sum_{i = 0}^{n - 1} c_i x^i e^{\alpha x}.$
+    \item $(D^2 + 2\alpha D + \alpha^2 + \beta^2)^n$ for $\displaystyle\sum_{i = 0}^{n - 1} (a_i x^i e^{\alpha x} \cos \beta + b_i x^i e^{\alpha x} \sin \beta)$.
+\end{enumerate}
+
+Now, for a nonhomogeneous linear DE with constant coefficients, that is
+\[L(y)= g(x),\]
+with $g + g' + g'' +\ldots$ having finite terms, and $L_1$ is an annihiliator of $g$, then the particular solution is the solution with undetermined coefficient of the DE is the homogeneous solution of $L_1Ly.$
+
+\section{Variation of Parameters}
+
+In this section we focus on how to get particular solutoins of linear ODEs by given homogeneous solutions, in general cases. Let us take a look at a linear equation again. Consider
+\[y^{(n)} + p_{n - 1}(x)y^{(n - 1)} + \cdots + p_0(x)y = f(x).\]
+Let
+\[\mathbf{Y_k} = \begin{pmatrix}
+    y_k\\ y_k' \\ \vdots \\ y_k^{(n - 1)}
+\end{pmatrix}, \quad \mathbf{\Phi} =  \begin{pmatrix}
+    \mathbf{Y_1} & \mathbf{Y_2} & \cdots & \mathbf{Y_n} 
+\end{pmatrix}\]
+where $k = 1, 2, \ldots, n$ and $y_1, y_2, \ldots, y_n$ are linearly indpendent solutions of the corresponding homogeneous equation, that is
+\[
+\mathbf{Y_k} = \mathbf{A}\mathbf{Y_k}, \quad \text{so} \quad 
+\mathbf{\Phi}' = \mathbf{A}\mathbf{\Phi}
+\]
+where
+\[\mathbf{A}=\begin{pmatrix}0&1&0&\cdots&0\\0&0&1&\cdots&0\\\vdots&&&\ddots&\vdots\\0&0&0&\cdots&1\\-p_0&-p_1&-p_2&\cdots&-p_{n-1}\end{pmatrix}.\]
+Now, consider a particular solution
+\[\mathbf{Y_p} = \mathbf{A}\mathbf{Y_p} + \mathbf{F},\]
+where
+\[\mathbf{F} = \begin{pmatrix}
+    0 \\ 0 \\ \vdots \\ f(x) 
+\end{pmatrix}.\]
+Now, since $\mathbf{\Phi}$ is invertable, let
+\[\mathbf{u} = \begin{pmatrix}
+    u_1(x) & u_2(x) & \cdots & u_n(x)
+\end{pmatrix}= \mathbf{\Phi}^{-1}\mathbf{Y_p},\]
+so
+\[
+\mathbf{Y_p} = \mathbf{\Phi}\mathbf{u},
+\]
+that is, $y_p = u_k(x)y_k(x)$ for $k = 0, 1, \ldots n$. Next, we write the ODE again
+\[\mathbf{Y_p}' = \mathbf{A}\mathbf{Y_p} + \mathbf{F}\]
+\[\mathbf{\Phi}'\mathbf{u} + \mathbf{\Phi}\mathbf{u}' = \mathbf{A} \mathbf{\Phi}\mathbf{u} + \mathbf{F}\]
+\[\mathbf{A}\mathbf{\Phi}\mathbf{u} + \mathbf{\Phi}\mathbf{u}' = \mathbf{A} \mathbf{\Phi}\mathbf{u} + \mathbf{F}\]
+\[\mathbf{\Phi}\mathbf{u}' =  \mathbf{F}.\]
+Therefore, we can obtain $u_k$ by Cramer's rule and find a particular solution.
+
+\section{Cauchy-Euler Equations}
+\begin{definition}[Cauchy-Euler Equation]
+    A linear ODE of the form 
+    \[\sum_{k = 1}^{n} a_k x^k y^{(k)} = g(x)\]
+    where $a_k$ are constant coefficients, is called a \textbf{Cauchy-Euler equation}.
+\end{definition}
+
+For Cauchy-Euler equations, let $y = x^m$ and solve the auxiliry equation about $m$. For repeating root of, that's say $m_1$ with multiplicity $l$, the corresponding $l$ independent solutions are $x^{m_1}, x^{m_1}\ln x, \ldots, x^{m_1}(\ln x)^l$. For complex roots, $\alpha \pm i\beta$, the corresponding two solutions are $x^\alpha \cos(\beta \ln x)$ and $x^\alpha \sin(\beta \ln x)$.
+
+Notice that it seems to be similar to the rules of constant linear ODE with coeffecients but now $x$ becomes $\ln x$. That is because the whole method for Cauchy-Euler equations mentioned can also be done by substitute $x = e^t$ and get exact same auxiliry functions.
+
+The substitution of $x = e^t$ also help us get particular solutions of Cauchy-Euler equations. For example, consider
+\[x^2 y'' - xy' + y = \ln x.\]
+
+
+\chapter{Series Solutions of Linear Equations}
+
+\section{Solutions About Ordinay Points}
+
+The idea is that, consider a linear ODE
+\[\sum_{i = 0}^{n} a_i(x)y^{(i)}(x) = 0.\]
+If the solution is analytic, that is, can be expressed as
+\[y_i = \sum_{k = 0}^{\infty} c_k (x - a)^k,\]
+then we can obtain the coeffiecients by $a_i(x)$ if they are also analytic. If $a_n = 0,$ then since $x - a$ is a factor of $a_n(x)$, we actually only have $n - 1$th order recursive equation of $c_k$, that is, cannot produce $n$ linearly independent solutions.
+
+\begin{definition}[Analytic]
+    Let $f$ be a function. If we can write
+    \[f(x) = \sum_{k = 0}^{\infty} a_k(x - x_0)^k\]
+    on some open interval including $x_0$, then $f$ is \textbf{analytic} at $x_0$.
+\end{definition}
+
+\begin{definition}[Ordinary Points and Singular Points]
+    For a linear ODE
+    \[\sum_{i = 0}^{n} a_i(x)y^{(i)}(x) = 0.\]
+    Let
+    \[P_k(x) = \frac{a_k(x)}{a_n(x)}\]
+    for $k = 0, 1, 2, \ldots, n - 1.$ Then $x_0$ is an \textbf{ordinary point} if $P_0, P_1, \ldots, P_{n - 1}$ are analytic at $x_0$. Otherwise, it is a \textbf{singular point.}
+\end{definition}
+
+\begin{theorem}
+    Consider 
+    \[\sum_{i = 0}^{n} a_i(x)y^{(i)}(x) = 0,\]
+    where
+    $a_0, a_1, \ldots, a_n$ be functions of $x$ analytic at $a$ and $a_n(a) \neq 0$. 
+    There exist $n$ linearly independent analytic solutions around $a$ converge at least for $|x - a| < R,$ where $R$ is the distance from $a$ to the nearst singular point.
+\end{theorem}
+
+Before jump into the next chapter to examine a particular method for singular points, let us try three methods to show that singular points do matters.
+
+\begin{example}
+    Consider the ODE
+    \[y' - x^2y = 0.\]
+    Let
+    \[x = \sum_{k = 0}^{\infty} c_k x^{k}\]
+\end{example}
+
+\begin{example}
+    \[y' - y = 0\]
+\end{example}
+
+
+
+\begin{example}
+    \[xy' + y = 0\]
+    where $x = 0$ is a singular point. Let us whatever do this to see the problem.
+    \[x \sum_{k = 1}^{\infty}kc_kx^{k - 1} + \sum_{k = 0}^{\infty} c_k x^{k} = 0\]
+    \[\sum_{k = 0}^{\infty}{(k + 1)}c_{k}x^{k} + \sum_{k = 0}^{\infty} c_k x^{k} = 0.\]
+    This gives us $y = 0$ which is complete useless. However, if we consideer to shift the power of $x$ by $r$, that is
+    \[x = \sum_{k = 0}^{\infty} c_k x^{k + r}\]
+    we have
+    \[x \sum_{k = 0}^{\infty}{(r + k)}c_kx^{r + k - 1} + \sum_{k = 0}^{\infty} c_k x^{r + k} = 0\]
+    \[\sum_{k = 0}^{\infty}(r + k)c_{k}x^{r + k} + \sum_{k = 0}^{\infty} c_k x^{r + k} = 0\]
+    \[(r + k + 1)c_k = 0, k \geq 0.\]
+    Notice that this solution reduced to $cx^{-1}.$ For example, let $c_0 \neq 0,$ and others are $0$, then $r = -1$. We have $y = c_0 x^{-1}$. Or, let $c_{67} \neq 0$ and others are $0$, then $r = -68.$ We have $y = c_{67}x^{-68 + 67} = c_{67} x^{-1}.$
+\end{example}
+
+\begin{example}
+    Consider the ODE
+    \[x^2y' + y = 0\]
+    where $x = 0$ is a singular point. If we take lessons from the last example, that is
+    \[x = \sum_{k = 0}^{\infty} c_k x^{k + r}\]
+    we have
+    \[x^2 \sum_{k = 0}^{\infty}{(r + k)}c_kx^{r + k - 1} + \sum_{k = 0}^{\infty} c_k x^{r + k} = 0\]
+    \[\sum_{k = 1}^{\infty}(r + k - 1)c_{k - 1}x^{r + k} + \sum_{k = 0}^{\infty} c_k x^{r + k} = 0\]
+    \[
+    \begin{cases}
+        (r + k + 1)c_{k + 1} + c_k = 0, k \geq 0\\
+        c_0 = 0, k = 0.
+    \end{cases}
+    \]
+\end{example}
+
+
+\end{document}
